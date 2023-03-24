@@ -52,7 +52,7 @@ def get_single_todo_item():
             "priority": todo_item.priority,
         },  "200"
     except:
-        return {"Response": "Item {} was not found in this list".format(todo_id)}, 404
+        return {"Response": "Todo item {} has not been found in the list".format(todo_id)}, 404
 
 
 @app.route("/todo", methods=["POST"])
