@@ -30,6 +30,7 @@ def get_all_todos():
     todo_list = []
     todos = Todo.query.all()
     for todo in todos:
+        print(type(todo))
         todo_data = {
             "id": todo.id,
             "description": todo.description,
@@ -64,7 +65,7 @@ def create_todo_item():
     )
     db.session.add(todo_item)
     db.session.commit()
-    return {"Response": "Todo item has been added"}, 200
+    return {"Response": "Todo item {} has been added"}, 200
 
 
 @app.route("/", methods=["DELETE"])
