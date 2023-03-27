@@ -1,12 +1,31 @@
+import pytest
 import mock
+
 from todo_list import app
 
-def test_empty_list_returned_if_no_todo_data():
-    with mock.patch('todo_list.app.Todo') as mock_todo:
-        mock_todo.query.all = mock.MagicMock(return_value = [{"id": 1, "description": "hi", "deadline": "2023-03-03", "priority": 1}])
+
+@pytest.mark.parametrize(
+    "list_of_todos, expected_output",
+    [
+        (
+            [
+                app.Todo(description="item1", deadline="2023-03-01", priority=1),
+                app.Todo(description="item2", deadline="2023-02-02", priority=0),
+            ],
+            2,
+        ),
+        ([app.Todo(description="item1", deadline="2023-03-01", priority=1)], 1),
+    ],
+)
+def test_get_all_todos(list_of_todos, expected_output):
+    with mock.patch("todo_list.app.Todo") as mock_todo:
+        mock_todo.query.all = mock.MagicMock(return_value=list_of_todos)
         result = app.get_all_todos()
-
-        print(result)
-
+        assert len(result[0]["Todo list"]) == expected_output
 
 
+def test_get_all_todos_when_list_empty():
+    with mock.patch("todo_list.app.Todo") as mock_todo:
+        mock_todo.query.all = mock.MagicMock(return_value=[])
+        result = app.get_all_todos()
+        assert len(result[0]["Todo list"]) == 0
