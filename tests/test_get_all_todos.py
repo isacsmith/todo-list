@@ -15,6 +15,7 @@ from todo_list import app
             2,
         ),
         ([app.Todo(description="item1", deadline="2023-03-01", priority=1)], 1),
+        ([], 0)
     ],
 )
 def test_get_all_todos(list_of_todos, expected_output):
@@ -22,10 +23,3 @@ def test_get_all_todos(list_of_todos, expected_output):
         mock_todo.query.all = mock.MagicMock(return_value=list_of_todos)
         result = app.get_all_todos()
         assert len(result[0]["Todo list"]) == expected_output
-
-
-def test_get_all_todos_when_list_empty():
-    with mock.patch("todo_list.app.Todo") as mock_todo:
-        mock_todo.query.all = mock.MagicMock(return_value=[])
-        result = app.get_all_todos()
-        assert len(result[0]["Todo list"]) == 0
