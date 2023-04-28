@@ -65,7 +65,7 @@ def create_todo_item():
     )
     db.session.add(todo_item)
     db.session.commit()
-    return {"Response": "Todo item {} has been added"}, 200
+    return {"Response": "Todo item {} has been added".format(todo_id)}, 200
 
 
 @app.route("/", methods=["DELETE"])
@@ -80,4 +80,4 @@ def delete_todo_item():
         return {"Response": "Todo item {} has not been found in the list".format(todo_id)}, 404
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=1234)
